@@ -32,8 +32,10 @@ export function Dashboard() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">AI Safety Incident Dashboard</h1>
+    <div className="max-w-4xl mx-auto p-4 space-y-6 animate-fade-in">
+      <h1 className="text-3xl font-bold text-gray-900 mb-8 animate-slide-in-from-left">
+        AI Safety Incident Dashboard
+      </h1>
       
       <FilterToolbar
         selectedSeverity={selectedSeverity}
@@ -44,10 +46,11 @@ export function Dashboard() {
 
       <div className="grid md:grid-cols-[2fr,1fr] gap-6">
         <div className="space-y-4">
-          {incidents.map((incident) => (
+          {incidents.map((incident, index) => (
             <div
               key={incident.id}
-              className="bg-white rounded-lg shadow-sm border p-4 transition-all hover:shadow-md"
+              className="bg-white rounded-lg shadow-sm border p-4 transition-all hover:shadow-md animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-1">
@@ -57,7 +60,7 @@ export function Dashboard() {
                       {format(new Date(incident.reported_at), "MMM d, yyyy 'at' h:mm a")}
                     </span>
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(
+                      className={`px-2 py-1 rounded-full text-xs font-medium transition-colors ${getSeverityColor(
                         incident.severity
                       )}`}
                     >
@@ -69,7 +72,7 @@ export function Dashboard() {
                   variant="ghost"
                   size="sm"
                   onClick={() => toggleExpanded(incident.id)}
-                  className="shrink-0"
+                  className="shrink-0 transition-transform hover:scale-105"
                 >
                   {expandedIds.has(incident.id) ? (
                     <ChevronUp className="h-4 w-4" />
@@ -80,7 +83,7 @@ export function Dashboard() {
               </div>
               
               {expandedIds.has(incident.id) && (
-                <div className="mt-4 pt-4 border-t text-gray-600">
+                <div className="mt-4 pt-4 border-t text-gray-600 animate-accordion-down">
                   {incident.description}
                 </div>
               )}
@@ -88,13 +91,13 @@ export function Dashboard() {
           ))}
           
           {incidents.length === 0 && (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 animate-fade-in">
               No incidents found matching the current filters.
             </div>
           )}
         </div>
 
-        <div className="md:sticky md:top-4">
+        <div className="md:sticky md:top-4 animate-slide-in-from-right">
           <IncidentForm onSubmit={addIncident} />
         </div>
       </div>
